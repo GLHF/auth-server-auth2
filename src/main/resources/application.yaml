@@ -1,0 +1,49 @@
+server:
+  port: ${SERVER_PORT:8081}
+  max-http-header-size: 32MB
+
+access_token:
+  valid_seconds: 600_000_000
+refresh_token:
+  valid_seconds: 1_600_000_000
+
+app:
+  eureka-username: u
+  eureka-password: p
+  eureka-server: localhost
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:payment_system_oauth}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_USER:postgres}
+    hikari:
+      maximum-pool-size: 10
+  flyway:
+    locations: classpath:/db/migration
+    enabled: true
+    out-of-order: true
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        current_session_context_class: thread
+  application:
+    name: auth-service
+  main:
+    allow-bean-definition-overriding: true
