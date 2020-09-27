@@ -8,8 +8,8 @@ refresh_token:
   valid_seconds: 1_600_000_000
 
 app:
-  eureka-username: u
-  eureka-password: p
+  eureka-username: ${EUREKA_LOGIN:u}
+  eureka-password: ${EUREKA_PASSWORD:p}
   eureka-server: localhost
 
 eureka:
